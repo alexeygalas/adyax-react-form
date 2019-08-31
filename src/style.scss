@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
+@font-face {
+  font-family: "Avalon";
+  font-weight: normal;
+  src: url("../public/fonts/Avalon.ttf");
+}
+@font-face {
+  font-family: "Avalon";
+  font-weight: bold;
+  src: url("../public/fonts/Avalon_Bold.ttf");
+}
+
+body {
+  background: #333;
+  margin: 0;
+  padding: 0; 
+
+  #content-wrapper {
+    width: 1200px;
+    margin: 0 auto;  
+    background: white;
+    color: #7d7d7d;
+    font-family: "Work Sans";
+    font-size: 16px;
+    font-weight: 400;
+
+    header {
+      #logo-block {
+        height: 163px;
+        padding-top: 53px;
+        #logo {
+          background-image: url(./images/logo.svg);
+          background-position: top center;
+          background-repeat: no-repeat;
+          position: relative;
+          width: 245px;
+          height: 95px;
+          margin: 0 auto;
+          & > span {
+            position: absolute;
+            display: block;
+            bottom: 0;
+            left: 0;
+            color: #191919;
+            font-family: "Work Sans";
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 14px;
+            text-transform: uppercase;
+          }
+        }
+      }
+      #title-block {
+        height: 464px;
+        h2 {
+          margin-top: 0;
+          color: #191919;
+          font-family: "Avalon";
+          font-size: 60px;
+          line-height: 67px;
+          text-align: center;
+          & > .yellow {
+            color: #ffd92f;
+          }
+        }
+        h3 {
+          color: #191919;
+          font-family: "Work Sans";
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 43px;
+          text-align: center;
+        }
+      }
+    }
+
+    #content {
+      height: 880px;
+      background: #ffdd23;
+      position: relative;
+      #form-container {
+        background-color: white;
+        position: absolute;
+        width: 980px;
+        height: 868px;
+        padding: 25px 65px 58px 52px;
+        top: -147px;
+        left: 103px;
+        box-shadow: 0px 25px 54px rgba(0,0,0,0.11);
+        .line-item {
+          width: 931px;
+          height: 190px;
+          padding: 37px 23px 30px 27px;
+          border-bottom: #ececec 1px solid;
+          .img-wrapper {
+            width: 168px;
+            img {
+              border-radius: 7px;
+              box-shadow: 0px 11px 20px rgba(0,0,0,0.08);
+              width: 131px;
+              height: 131px;
+              border: 0;
+            }
+          }
+        }
+      }
+    }
+
+    #worldmap {
+      background-image: url(./images/bitmap.png);
+    }
+    
+    /* @2x Images (Pixel Ratio of 1.25+) */
+    @media only screen and (-o-min-device-pixel-ratio: 5/4),
+           only screen and (-webkit-min-device-pixel-ratio: 1.25),
+           only screen and (min-device-pixel-ratio: 1.25),
+           only screen and (min-resolution: 1.25dppx) {
+      #worldmap {
+        background-image:url('./images/bitmap@2x.png');
+        background-position: center center;
+      }
+    }
+    
+    /* @3x Images (Pixel Ratio of 2.25+) */
+    @media only screen and (-o-min-device-pixel-ratio: 9/4),
+           only screen and (-webkit-min-device-pixel-ratio: 2.25),
+           only screen and (min-device-pixel-ratio: 2.25),
+           only screen and (min-resolution: 2.25dppx) {
+      #worldmap {
+        background-image:url('./images/bitmap@3x.png');
+      }
+    }
+
+    footer {
+      height: 691px;
+      background-color: black;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      & > article {
+        display: block;
+        padding-top: 221px;
+        color: white;
+        font-family: "Avalon";
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 52px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+
+
