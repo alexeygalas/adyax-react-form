@@ -4,16 +4,17 @@ const path = require('path');
 const UglifyJSPlugin = require('uglify-js-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 require('@babel/register');
 
 let conf = {
   mode: 'development',
   entry: {
-    bundle: './src/index.js',
+    app: './src/index.js',
     style: './src/style.scss'
   },
   output: {
-    filename: '[name].js',
+    filename: 'bundle.[name].js',
     sourceMapFilename: '[name].js.map',
     chunkFilename: '[name].js',
     path: path.join(__dirname, './assets')
@@ -38,7 +39,10 @@ let conf = {
       template: './src/index.html',
       filename: 'index.html',
       hash: true
-    })
+    }),
+    new CopyWebpackPlugin([
+      { test: /\.svg$/, from: './src/images/' }
+    ])
   ],
   module: {
     rules: [
@@ -56,8 +60,29 @@ let conf = {
         ]
       },
       {
-        test: /\.(jpe?g|png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
+        test: /\.(jpe?g|png|svg)$/,
+        include: path.resolve(__dirname, 'src/images'),
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 100000,
+              name: '[name].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 100000,
+              name: '[name].[ext]'
+            }
+          }
+        ]
       }
     ]
   },

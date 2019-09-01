@@ -5,7 +5,7 @@ tmp/**/*
 /.vscode
 /.project
 /*.iml
-/public/assets
+assets/
 /.env.*
 /node_modules
 /cdn_upload/*
