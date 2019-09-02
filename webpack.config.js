@@ -9,15 +9,12 @@ require('@babel/register');
 
 let conf = {
   mode: 'development',
-  entry: {
-    app: './src/index.js',
-    style: './src/style.scss'
-  },
+  entry: { app: './src/index.js' },
   output: {
-    filename: 'bundle.[name].js',
-    sourceMapFilename: '[name].js.map',
-    chunkFilename: '[name].js',
-    path: path.join(__dirname, './assets')
+    filename: './assets/bundle.[name].js',
+    sourceMapFilename: './assets/[name].js.map',
+    chunkFilename: './assets/[name].js',
+    path: path.join(__dirname, 'build')
   },
   optimization: {
     splitChunks: {
@@ -33,15 +30,23 @@ let conf = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: './assets/style.css'
     }),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './public/index.html',
       filename: 'index.html',
       hash: true
     }),
     new CopyWebpackPlugin([
-      { test: /\.svg$/, from: './src/images/' }
+      {
+        from: './src/assets/images/',
+        to: './assets/images'
+      },
+      {
+        from: './public/*.ico',
+        to: './assets/images',
+        flatten: true
+      }
     ])
   ],
   module: {
@@ -54,32 +59,40 @@ let conf = {
       {
         test: /\.s?[ac]ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
           'css-loader',
           'sass-loader'
         ]
       },
       {
         test: /\.(jpe?g|png|svg|ico)$/,
-        include: path.resolve(__dirname, 'src/images'),
+        include: [ path.resolve(__dirname, 'src/assets/images') ],
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
               limit: 100000,
-              name: '[name].[ext]'
+              name: '[name].[ext]',
+              outputPath: './assets/images'
             }
           }
         ]
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
+        include: path.resolve(__dirname, 'src/assets/fonts'),
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
               limit: 100000,
-              name: '[name].[ext]'
+              name: '[name].[ext]',
+              outputPath: './assets/fonts'
             }
           }
         ]

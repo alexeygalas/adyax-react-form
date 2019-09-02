@@ -1,6 +1,9 @@
+"use strict";
+
 import React from 'react';
+import './style.scss';
 import CartItem from './components/CartItem';
-import iconPlus from './images/icon-plus.svg';
+import iconPlus from './assets/images/icon-plus.svg';
 
 class App extends React.Component {
   constructor (props) {
@@ -103,7 +106,8 @@ class App extends React.Component {
             )
           }
         </div>
-        { (items) && 
+        {
+          (items) && 
           <div id='total-price'>
             <a className='add-line' onClick={this.addCartLine.bind(this)}>
               <img src={iconPlus} />
@@ -117,7 +121,7 @@ class App extends React.Component {
   }
 }
 
-export function getItemData(dataSet, itemId) {
+export function getItemData (dataSet, itemId) {
   return dataSet.find(item => (item.id === itemId));
 }
 

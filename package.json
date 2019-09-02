@@ -4,7 +4,7 @@
   "description": "adyax test react form",
   "main": "index.js",
   "scripts": {
-    "cleanup": "rm -rf assets/*",
+    "cleanup": "rm -rf build/*",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run cleanup && set NODE_ENV=production && webpack",
     "dev": "webpack --watch --progress --display-error-details",
@@ -43,6 +43,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.5.5",
     "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",

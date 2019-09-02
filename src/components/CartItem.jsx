@@ -1,9 +1,12 @@
+"use strict";
+
 import React from 'react';
+import '../style.scss';
 import { getItemData } from '../App';
-import noImageIcon from '../images/lineitem.svg';
-import iconTrash from '../images/icon-trash.svg';
-import iconPlus from '../images/icon-plus.svg';
-import iconMinus from '../images/icon-minus.svg';
+import noImageIcon from '../assets/images/lineitem.svg';
+import iconTrash from '../assets/images/icon-trash.svg';
+import iconPlus from '../assets/images/icon-plus.svg';
+import iconMinus from '../assets/images/icon-minus.svg';
 
 class CartItem extends React.PureComponent {
   onSkuChange (event) {
@@ -20,7 +23,7 @@ class CartItem extends React.PureComponent {
       <div className='line-item'>
         <div className='img-wrapper'>
           { itemData.imageFile === '' && <div className='img-border no-image'><img src={noImageIcon} /></div> }
-          { itemData.imageFile !== '' && <div className='img-border'><img src={`/${itemData.imageFile}.jpg`} /></div> }
+          { itemData.imageFile !== '' && <div className='img-border'><img src={`assets/images/${itemData.imageFile}.jpg`} /></div> }
         </div>
         <div className='desc-block'>
           <article className='item-title'>{itemData.title}</article>
