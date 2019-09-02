@@ -8,6 +8,3 @@ tmp/**/*
 build/
 /.env.*
 /node_modules
-/cdn_upload/*
-/csr-react-widgets
-/public/index.html
