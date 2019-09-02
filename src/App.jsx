@@ -1,106 +1,108 @@
 import React from 'react';
+import CartItem from './components/CartItem';
+import iconPlus from './images/icon-plus.svg';
 
 class App extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = { totalCost: 0 };
+    this._apiUrl = 'http://5d6774fe6847d40014f65fec.mockapi.io/api';
+  }
+
+  componentDidMount () {
+    fetch(`${this._apiUrl}/items`)
+      .then(resp => resp.json())
+      .then(resp => this.setState({ items: resp }) );
+  }
+
+  shouldComponentUpdate (props, state) {
+    const { items, cart } = state;
+
+    if ((items !== undefined) && (items.length > 0) && (cart === undefined)) {
+      this.setState({
+        cart: [
+          {id: items[0].id, count: items[0].minCount },
+          {id: items[1].id, count: items[1].minCount },
+          {id: items[2].id, count: items[2].minCount }
+        ]
+      });
+      return true;
+    }
+
+    if (Array.isArray(cart)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  onRemoveClick (index) {
+    const cart = this.state.cart.filter((item, i) => (i !== index));
+    this.setState({ cart });
+  }
+
+  onCounIncClick (index) {
+    console.log(`#${index} count increased`);
+  }
+
+  onCounDecClick (index) {
+    console.log(`#${index} count raised`);
+  }
+
+  updateTotalCost (value) {
+
+  }
+
+  addCartLine () {
+    let { cart, items } = this.state;
+    cart.push({id: items[0].id, count: items[0].minCount });
+    this.setState({ cart });
+  }
+
+  onSkuChange(index, id) {
+    console.log(`Item #${index} has been changed to ${id}`);
+  }
+
+  calculateTotal() {
+    const { items, cart } = this.state;
+    let totalCost = 0.00;
+    
   }
 
   render () {
-    return (<div>
-      <div className='lines'>
-        <div className='line-item'>
-          <div className='img-wrapper'>
-            <div className='img-border no-image'>
-              <img src='/lineitem.svg' />
-            </div>
-          </div>
-          <div className='desc-block'>
-            <article className='item-title'>Title Lorem ipsum dolor sit</article>
-            <article className='item-desc'>Lorem ipsum dolor sit amet, quis dictum mauris erat aliquam, ac in pede pharetra quis non et.</article>
-            <select className='item-line'>
-              <option value='0'>Canon EOS 5D</option>
-              <option value='1'>Canon EOS 6D</option>
-              <option value='2'>Canon EOS 7D</option>
-            </select>
-          </div>
-          <div className='ctl-block'>
-            <div className='button-bar remove'>
-              <a className='button-remove'><img src='/icon-trash.svg' /></a>
-            </div>
-            <div className='button-bar count'>
-              <span className='item-price'>75.00 &euro;</span>
-              <div className='count-ctl'>
-                <a className='button btn-inc'><img src='/icon-plus.svg' /></a>
-                <span className='label-count'>5</span>
-                <a className='button btn-dec'><img src='/icon-minus.svg' /></a>
-              </div>
-            </div>
-          </div>
+    const { cart, items, totalCost } = this.state;
+    
+    return (
+      <div>
+        <div className='lines'>
+          { 
+            ((cart === undefined) || (!Array.isArray(cart)) || (cart.length < 1)) 
+            && <p>Cart is empty</p>
+          }
+          {
+            ((cart !== undefined) && (Array.isArray(cart)) && (cart.length > 0)) &&
+            cart.map((line, key) => 
+              <CartItem
+                key={key}
+                items={items}
+                id={line.id}
+                count={line.count}
+                onRemoveClick={() => { this.onRemoveClick(key) }}
+                onCounIncClick={() => { this.onCounIncClick(key) }}
+                onCounDecClick={() => {this.onCounDecClick(key) }}
+              />
+            )
+          }
         </div>
-        <div className='line-item'>
-          <div className='img-wrapper'>
-            <div className='img-border no-image'>
-              <img src='/lineitem.svg' />
-            </div>
-          </div>
-          <div className='desc-block'>
-            <article className='item-title'>Title Lorem ipsum dolor sit</article>
-            <article className='item-desc'>Lorem ipsum dolor sit amet, quis dictum mauris erat aliquam, ac in pede pharetra quis non et.</article>
-            <select className='item-line'>
-              <option value='0'>Canon EOS 5D</option>
-              <option value='1'>Canon EOS 6D</option>
-              <option value='2'>Canon EOS 7D</option>
-            </select>
-          </div>
-          <div className='ctl-block'>
-            <div className='button-bar remove'>
-              <a className='button-remove'><img src='/icon-trash.svg' /></a>
-            </div>
-            <div className='button-bar count'>
-              <span className='item-price'>75.00 &euro;</span>
-              <div className='count-ctl'>
-                <a className='button btn-inc'><img src='/icon-plus.svg' /></a>
-                <span className='label-count'>5</span>
-                <a className='button btn-dec'><img src='/icon-minus.svg' /></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='line-item'>
-          <div className='img-wrapper'>
-            <div className='img-border no-image'>
-              <img src='/lineitem.svg' />
-            </div>
-          </div>
-          <div className='desc-block'>
-            <article className='item-title'>Title Lorem ipsum dolor sit</article>
-            <article className='item-desc'>Lorem ipsum dolor sit amet, quis dictum mauris erat aliquam, ac in pede pharetra quis non et.</article>
-            <select className='item-line'>
-              <option value='0'>Canon EOS 5D</option>
-              <option value='1'>Canon EOS 6D</option>
-              <option value='2'>Canon EOS 7D</option>
-            </select>
-          </div>
-          <div className='ctl-block'>
-            <div className='button-bar remove'>
-              <a className='button-remove'><img src='/icon-trash.svg' /></a>
-            </div>
-            <div className='button-bar count'>
-              <span className='item-price'>75.00 &euro;</span>
-              <div className='count-ctl'>
-                <a className='button btn-inc'><img src='/icon-plus.svg' /></a>
-                <span className='label-count'>5</span>
-                <a className='button btn-dec'><img src='/icon-minus.svg' /></a>
-              </div>
-            </div>
-          </div>
+        <div id='total-price'>
+          <a className='add-line' onClick={this.addCartLine.bind(this)}>
+            <img src={iconPlus} />
+            <span>Add line</span>
+          </a>
+          <span>{totalCost} &euro;</span>
         </div>
       </div>
-      <div id='total-price'>
-        <span>225.00 &euro;</span>
-      </div>
-    </div>);
+    );
   }
 }
 

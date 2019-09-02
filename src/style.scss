@@ -88,13 +88,16 @@ body {
       #form-container {
         background-color: white;
         position: absolute;
-        width: 980px;
+        width: 1000px;
         height: 868px;
-        padding: 25px 65px 58px 52px;
+        padding: 25px 45px 58px 52px;
         top: -147px;
         left: 103px;
         box-shadow: 0px 25px 54px rgba(0,0,0,0.11);
         .lines {
+          height: 774px;
+          overflow-y: auto;
+
           .line-item {
             width: 931px;
             height: 190px;
@@ -108,8 +111,9 @@ body {
               .img-border{
                 border-radius: 12px;
                 box-shadow: 0px 11px 20px rgba(0,0,0,0.08);
-                width: 131px;
-                height: 131px;
+                padding: 12px;
+                width: 107px;
+                height: 107px;
                 display: block;
 
                 &.no-image {
@@ -121,6 +125,8 @@ body {
                 img {
                   border: 0;
                   opacity: 1;
+                  width: 107px;
+                  height: 107px;
                 }
 
                 &:hover > img { @extend %dark-hover; }
@@ -249,6 +255,28 @@ body {
             font-weight: bold;
             font-size: 35px;
             color: black;
+          }
+
+          .add-line {
+            display: block;
+            float: left;
+            padding: 12px 8px;
+            border: 1px solid #7d7d7d;
+            cursor: pointer;
+
+            img {
+              margin-right: 5px;
+              padding-top: 3px;
+            }
+
+            & > span {
+              display: block;
+              float: right;
+              padding-top: 1px;
+            }
+
+            &:hover { border-color: #555; }
+            &:active { border-color: #999; }
           }
         }
       }
