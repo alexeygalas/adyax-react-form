@@ -1,0 +1,62 @@
+{
+  "name": "adyax-react-form",
+  "version": "1.0.0",
+  "description": "adyax test react form",
+  "main": "index.js",
+  "scripts": {
+    "cleanup": "rm -rf build/*",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run cleanup && set NODE_ENV=production && webpack",
+    "dev": "webpack --watch --progress --display-error-details",
+    "devserver": "webpack-dev-server --content-base build --watch",
+    "eslint": "node_modules/.bin/eslint",
+    "reinstall": "rm -rf node_modules package-lock.json && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexeygalas/adyax-react-form.git"
+  },
+  "keywords": [
+    "react",
+    "html5",
+    "scss",
+    "babel",
+    "webpack"
+  ],
+  "author": "Alexey Galas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexeygalas/adyax-react-form/issues"
+  },
+  "homepage": "https://github.com/alexeygalas/adyax-react-form#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "build-url": "^1.3.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "path": "^0.12.7",
+    "sass": "^1.22.10",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "uglify-js-plugin": "0.0.6",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
+  }
+}
