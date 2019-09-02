@@ -99,12 +99,7 @@ let conf = {
     disableHostCheck: true,
     port: 3000,
     open: true,
-    inline: true,
-    proxy: {
-      context: ['/api/**'],
-      target: 'http://5d6774fe6847d40014f65fec.mockapi.io',
-      secure: false
-    }
+    inline: true
   },
 };
 

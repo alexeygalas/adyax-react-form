@@ -296,6 +296,9 @@ body {
 
     #worldmap {
       background-image: url(./images/bitmap.png);
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
     
     /* @2x Images (Pixel Ratio of 1.25+) */
@@ -306,6 +309,8 @@ body {
       #worldmap {
         background-image:url('./images/bitmap@2x.png');
         background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
       }
     }
     
@@ -316,6 +321,9 @@ body {
            only screen and (min-resolution: 2.25dppx) {
       #worldmap {
         background-image:url('./images/bitmap@3x.png');
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
       }
     }
 
