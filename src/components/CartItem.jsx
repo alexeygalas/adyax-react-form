@@ -1,8 +1,6 @@
-"use strict";
-
 import React from 'react';
 import '../style.scss';
-import { getItemData } from '../App';
+import { getItemData, asDecimal } from '../App';
 import noImageIcon from '../assets/images/lineitem.svg';
 import iconTrash from '../assets/images/icon-trash.svg';
 import iconPlus from '../assets/images/icon-plus.svg';
@@ -15,9 +13,9 @@ class CartItem extends React.PureComponent {
 
   render () {
     const { onRemoveClick, onCounIncClick, onCounDecClick } = this.props;
-    const { count, items, id, cart } = this.props;
+    const { count, items, id } = this.props;
     const itemData = getItemData(items, id);
-    const cost = count * itemData.cost;
+    const cost = (count * itemData.cost);
 
     return(
       <div className='line-item'>
@@ -37,7 +35,7 @@ class CartItem extends React.PureComponent {
             <a className='button-remove' onClick={onRemoveClick}><img src={iconTrash} /></a>
           </div>
           <div className='button-bar count'>
-            <span className='item-price'>{cost} &euro;</span>
+            <span className='item-price'>{asDecimal(cost)} &euro;</span>
             <div className='count-ctl'>
               { (count === itemData.maxCount) && <span className='button btn-inc'><img src={iconPlus} /></span> }
               { 

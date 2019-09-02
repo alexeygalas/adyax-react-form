@@ -84,7 +84,7 @@ let conf = {
         ]
       },
       {
-        test: /\.(woff|woff2|eot|ttf)$/,
+        test: /\.(woff|eot|ttf|otf)$/,
         include: path.resolve(__dirname, 'src/assets/fonts'),
         use: [
           {

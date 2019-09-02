@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import './style.scss';
 import CartItem from './components/CartItem';
@@ -113,7 +111,7 @@ class App extends React.Component {
               <img src={iconPlus} />
               <span>Add line</span>
             </a>
-            <span>{totalCost} &euro;</span>
+            <span>{asDecimal(totalCost)} &euro;</span>
           </div>
         }
       </div>
@@ -123,6 +121,10 @@ class App extends React.Component {
 
 export function getItemData (dataSet, itemId) {
   return dataSet.find(item => (item.id === itemId));
+}
+
+export function asDecimal (expr) {
+  return parseFloat(Math.round(expr * 100) / 100).toFixed(2);
 }
 
 export default App;
