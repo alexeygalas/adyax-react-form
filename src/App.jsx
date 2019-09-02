@@ -5,20 +5,21 @@ import iconPlus from './images/icon-plus.svg';
 class App extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { totalCost: 0 };
+    this.state = {};
     this._apiUrl = 'http://5d6774fe6847d40014f65fec.mockapi.io/api';
   }
 
   componentDidMount () {
     fetch(`${this._apiUrl}/items`)
       .then(resp => resp.json())
-      .then(resp => this.setState({ items: resp }) );
+      .then(resp => this.setState({ items: resp }) )
+      .catch(error => this.setState({ items: false }) );
   }
 
   shouldComponentUpdate (props, state) {
     const { items, cart } = state;
 
-    if ((items !== undefined) && (items.length > 0) && (cart === undefined)) {
+    if ((items) && (items.length > 0) && (cart === undefined)) {
       this.setState({
         cart: [
           {id: items[0].id, count: items[0].minCount },
@@ -41,16 +42,11 @@ class App extends React.Component {
     this.setState({ cart });
   }
 
-  onCounIncClick (index) {
-    console.log(`#${index} count increased`);
-  }
-
-  onCounDecClick (index) {
-    console.log(`#${index} count raised`);
-  }
-
-  updateTotalCost (value) {
-
+  onCountChange (index, direction) {
+    let { cart } = this.state;
+    if (direction === 'up') cart[index].count++;
+    if (direction === 'down') cart[index].count--;
+    this.setState({ cart }); 
   }
 
   addCartLine () {
@@ -60,17 +56,27 @@ class App extends React.Component {
   }
 
   onSkuChange(index, id) {
-    console.log(`Item #${index} has been changed to ${id}`);
+    let { cart, items } = this.state;
+    cart[index].id = id;
+    cart[index].count = getItemData(items, id).minCount;
+    this.setState({ cart });
   }
 
-  calculateTotal() {
-    const { items, cart } = this.state;
+  calculateTotal(items, cart) {
     let totalCost = 0.00;
+    if ((cart !== undefined) && (Array.isArray(cart)) && (cart.length > 0)) {
+      cart.forEach((lineItem) => {
+        const curCost = getItemData(items, lineItem.id).cost;
+        totalCost += (lineItem.count * curCost);
+      });
+    }
     
+    return totalCost;
   }
 
   render () {
-    const { cart, items, totalCost } = this.state;
+    const { items, cart } = this.state;
+    const totalCost = this.calculateTotal(items, cart);
     
     return (
       <div>
@@ -79,31 +85,40 @@ class App extends React.Component {
             ((cart === undefined) || (!Array.isArray(cart)) || (cart.length < 1)) 
             && <p>Cart is empty</p>
           }
+          { (!items) && <p>ERROR: Unable to get data from API!</p> }
           {
             ((cart !== undefined) && (Array.isArray(cart)) && (cart.length > 0)) &&
             cart.map((line, key) => 
               <CartItem
                 key={key}
                 items={items}
+                cartNum={key}
                 id={line.id}
                 count={line.count}
                 onRemoveClick={() => { this.onRemoveClick(key) }}
-                onCounIncClick={() => { this.onCounIncClick(key) }}
-                onCounDecClick={() => {this.onCounDecClick(key) }}
+                onCounIncClick={() => { this.onCountChange(key, 'up') }}
+                onCounDecClick={() => {this.onCountChange(key, 'down') }}
+                onCartChangeItem={this.onSkuChange.bind(this)}
               />
             )
           }
         </div>
-        <div id='total-price'>
-          <a className='add-line' onClick={this.addCartLine.bind(this)}>
-            <img src={iconPlus} />
-            <span>Add line</span>
-          </a>
-          <span>{totalCost} &euro;</span>
-        </div>
+        { (items) && 
+          <div id='total-price'>
+            <a className='add-line' onClick={this.addCartLine.bind(this)}>
+              <img src={iconPlus} />
+              <span>Add line</span>
+            </a>
+            <span>{totalCost} &euro;</span>
+          </div>
+        }
       </div>
     );
   }
+}
+
+export function getItemData(dataSet, itemId) {
+  return dataSet.find(item => (item.id === itemId));
 }
 
 export default App;

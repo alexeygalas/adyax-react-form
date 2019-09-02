@@ -223,7 +223,7 @@ body {
                     color: #7d7d7d;
                   }
 
-                  .button {
+                  a.button {
                     display: block;
                     float: right;
                     border: 1px solid #e0e0e0;
@@ -234,6 +234,18 @@ body {
 
                     &:hover { img { opacity: 0.8; } }
                     &:active { border-color: black; }
+                    &.btn-dec { padding: 20px 10px 0px 10px; }
+                    &.btn-inc { padding: 12px 8px 8px 12px; }
+                    img { display: block; }
+                  }
+                  span.button {
+                    display: block;
+                    float: right;
+                    cursor: not-allowed;
+                    border: none;
+                    padding: 11px;
+                    width: 20px;
+                    height: 20px;
                     &.btn-dec { padding: 20px 10px 0px 10px; }
                     &.btn-inc { padding: 12px 8px 8px 12px; }
                     img { display: block; }
