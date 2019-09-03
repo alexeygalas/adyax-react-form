@@ -9,7 +9,6 @@
     "build": "npm run cleanup && set NODE_ENV=production && webpack",
     "dev": "webpack --watch --progress --display-error-details",
     "devserver": "webpack-dev-server --content-base build --watch",
-    "eslint": "node_modules/.bin/eslint",
     "reinstall": "rm -rf node_modules package-lock.json && npm install"
   },
   "repository": {
