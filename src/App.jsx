@@ -20,7 +20,7 @@ class App extends React.Component {
   shouldComponentUpdate (props, state) {
     const { items, cart } = state;
 
-    if ((items) && (items.length > 0) && (cart === undefined)) {
+    if ((items) && (items.length > 0) && (typeof cart === 'undefined')) {
       this.setState({
         cart: [
           {id: items[0].id, count: items[0].minCount },
@@ -31,11 +31,7 @@ class App extends React.Component {
       return true;
     }
 
-    if (Array.isArray(cart)) {
-      return true;
-    }
-
-    return false;
+    return Array.isArray(cart);
   }
 
   onRemoveClick (index) {
@@ -47,7 +43,7 @@ class App extends React.Component {
     let { cart } = this.state;
     if (direction === 'up') cart[index].count++;
     if (direction === 'down') cart[index].count--;
-    this.setState({ cart }); 
+    this.setState({ cart });
   }
 
   addCartLine () {
@@ -71,50 +67,62 @@ class App extends React.Component {
         totalCost += (lineItem.count * curCost);
       });
     }
-    
+
     return totalCost;
   }
 
-  render () {
+  rednerCart () {
+    const { items, cart } = this.state;
+    
+    if ((typeof cart === 'undefined') || (!Array.isArray(cart)) || (cart.length < 1)) {
+      return 'Cart is empty';
+    }
+
+    return cart.map((line, key) => {
+      return <CartItem
+        key={key}
+        items={items}
+        cartNum={key}
+        id={line.id}
+        count={line.count}
+        onRemoveClick={() => { this.onRemoveClick }}
+        onCounIncClick={() => { this.onCountChange(key, 'up') }}
+        onCounDecClick={() => {this.onCountChange(key, 'down') }}
+        onCartChangeItem={this.onSkuChange.bind(this)}
+      />;
+    })
+  }
+
+  rednerTotal () {
     const { items, cart } = this.state;
     const totalCost = this.calculateTotal(items, cart);
+
+    return (
+      <>
+        <a className='add-line' onClick={this.addCartLine.bind(this)}>
+          <img src={iconPlus} />
+          <span>Add line</span>
+        </a>
+        <span>{asDecimal(totalCost)} &euro;</span>
+      </>
+    );
+  }
+
+  render () {
+    const { items } = this.state;
+    
+    if (!items) {
+      return 'Loading';
+    }
+    
+    const cartContent = this.rednerCart();
+    const totalContent = this.rednerTotal();
     
     return (
-      <div>
-        <div className='lines'>
-          { 
-            ((cart === undefined) || (!Array.isArray(cart)) || (cart.length < 1)) 
-            && <p>Cart is empty</p>
-          }
-          { (!items) && <p>ERROR: Unable to get data from API!</p> }
-          {
-            ((cart !== undefined) && (Array.isArray(cart)) && (cart.length > 0)) &&
-            cart.map((line, key) => 
-              <CartItem
-                key={key}
-                items={items}
-                cartNum={key}
-                id={line.id}
-                count={line.count}
-                onRemoveClick={() => { this.onRemoveClick(key) }}
-                onCounIncClick={() => { this.onCountChange(key, 'up') }}
-                onCounDecClick={() => {this.onCountChange(key, 'down') }}
-                onCartChangeItem={this.onSkuChange.bind(this)}
-              />
-            )
-          }
-        </div>
-        {
-          (items) && 
-          <div id='total-price'>
-            <a className='add-line' onClick={this.addCartLine.bind(this)}>
-              <img src={iconPlus} />
-              <span>Add line</span>
-            </a>
-            <span>{asDecimal(totalCost)} &euro;</span>
-          </div>
-        }
-      </div>
+      <>
+        <div className='lines'>{cartContent}</div>
+        <div id='total-price'>{totalContent}</div>
+      </>
     );
   }
 }
